@@ -16,7 +16,7 @@ protected:
   }
 
   static void TearDownTestCase() {
-    printf("[TearDwonTestCase] trying to remove test output files...\n");
+    printf("[TearDownTestCase] trying to remove test output files...\n");
     remove("sample_out.txt");
     remove("sample_out.jpg");
   }

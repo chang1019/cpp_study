@@ -38,14 +38,12 @@ int File::Reader::read(Byte** content, unsigned int size) {
     ifs_.seekg(0, std::ifstream::end);
     file_size_ = static_cast<unsigned int>(ifs_.tellg());
     ifs_.seekg(0, std::ifstream::beg);
-
-    read_at_once_ = ((size < file_size_)
-		     ? size
-		     : file_size_);
   }
 
   if (0 == file_size_) { return 0; }
 
+  unsigned int rest_size = file_size_ - read_already_;
+  read_at_once_ = ((size < rest_size) ? size : rest_size);
   *content = new char[read_at_once_];
   ifs_.read(*content, read_at_once_);
 
