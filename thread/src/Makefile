@@ -1,4 +1,4 @@
-CXXFLAGS:= -g -O0
+CXXFLAGS:= -g -O0 -pthread
 
 SRCS:= $(wildcard *.cpp)
 OBJS:= $(SRCS:.cpp=.o)
