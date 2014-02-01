@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-#include "File.h"
+#include "FileReader.h"
 #include "StrUtil.h"
 
 namespace practice {
 ////////////////////////////////////////////////////////////////////////////////
 
-File::Reader::Reader(const char* path)
+FileReader::FileReader(const char* path)
   : status_(INIT),
     ifs_(),
     path_(copyCStr(path)),
@@ -17,11 +17,11 @@ File::Reader::Reader(const char* path)
   ifs_.exceptions(std::ios::failbit);
 }
 
-File::Reader::~Reader() {
+FileReader::~FileReader() {
   delete[] path_;
 }
 
-int File::Reader::read(Byte** content, unsigned int size) {
+int FileReader::read(Byte** content, unsigned int size) {
   if(FINISHED == status_) {
       printf("[read] fail to read. stream alredy has been reached eof.\n");
       return -1;    
@@ -58,36 +58,6 @@ int File::Reader::read(Byte** content, unsigned int size) {
   }
 
   return (read_already_ - tmp_already);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-File::Writer::Writer(const char* path)
-  : status_(INIT),
-    ofs_(),
-    path_(copyCStr(path))
-{
-  ofs_.exceptions(std::ios::failbit);
-}
-
-File::Writer::~Writer() {
-  delete[] path_;
-}
-
-int File::Writer::write(const Byte* content, unsigned int len) {
-  if (OPENED != status_) {
-    try {
-      ofs_.open(path_, std::ios::binary);
-    }
-    catch (std::ios_base::failure& e) {
-      printf("[write] fail to open file output stream.\n");
-      return -1;
-    }
-    status_ = OPENED;
-  }
-  if (0 == len)  { len = getStrLen(content); }
-  ofs_.write(content, len);
-  return len;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

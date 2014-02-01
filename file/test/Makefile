@@ -15,6 +15,7 @@ LIBS:= 	../../util/src/libutil.a
 
 CXXFLAGS += -I$(GTEST)/fused-src \
 	    -I../src \
+	    -I../../type/include \
 	    -I../../util/include
 
 .PHONY: all

@@ -3,7 +3,8 @@
 
 #include <gtest/gtest.h>
 
-#include "File.h"
+#include "FileReader.h"
+#include "FileWriter.h"
 
 using namespace practice;
 
@@ -23,7 +24,7 @@ protected:
 };
 
 TEST_F(FileTest, readTest_001) {
-  File::Reader reader("sample_in.txt");
+  FileReader reader("sample_in.txt");
   char* buf = NULL;
   int bufCount = 0;
   while (-1 < (bufCount = reader.read(&buf))) {
@@ -34,14 +35,14 @@ TEST_F(FileTest, readTest_001) {
 
 TEST_F(FileTest, writeTest_001) {
   {
-    File::Writer writer("sample_out.txt");
+    FileWriter writer("sample_out.txt");
     writer.write("a", 1);
     writer.write("bcd", 3);
     writer.write("\n", 1);
     writer.write("漢字");
   }
   {
-    File::Reader reader("sample_out.txt");
+    FileReader reader("sample_out.txt");
     char* buf = NULL;
     int bufCount = 0;
     while (-1 < (bufCount = reader.read(&buf))) {}
@@ -53,8 +54,8 @@ TEST_F(FileTest, writeTest_001) {
 TEST_F(FileTest, copyTest_001) {
   int fileSize = 0;
   {
-    File::Reader reader("sample_in.jpg");
-    File::Writer writer("sample_out.jpg");
+    FileReader reader("sample_in.jpg");
+    FileWriter writer("sample_out.jpg");
     Byte* buf = NULL;
     int bufCount = 0;
     while (-1 < (bufCount = reader.read(&buf))) {
@@ -64,8 +65,8 @@ TEST_F(FileTest, copyTest_001) {
   }
   ASSERT_EQ(57679U, fileSize);
   {
-    File::Reader origin("sample_in.jpg");
-    File::Reader target("sample_out.jpg");
+    FileReader origin("sample_in.jpg");
+    FileReader target("sample_out.jpg");
     Byte* bufOrigin = NULL;
     Byte* bufTarget = NULL;
     int bufCountOrigin = 0;
