@@ -8,8 +8,6 @@
 namespace practice {
 ////////////////////////////////////////////////////////////////////////////////
 
-#define BUFFER_MAX 4096
-
 class FileReader {
 private:
   enum {
@@ -37,12 +35,11 @@ public:
   /**
    * read byte data from file as binary data.
    *
-   * @param[out] content allocated internal. caller must to delete[] this byte array.
+   * @param[out] content byte array as a data container.
    * @param[in] size size of byte array.
-   *            if size is not given implicitly, BUFFER_MAX is used as default value.
    * @return read byte size if succeeded. -1 if failed.
    */
-  int read(Byte** content, unsigned int size = BUFFER_MAX);
+  int read(Byte* content, unsigned int size);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

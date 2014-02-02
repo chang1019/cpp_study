@@ -21,12 +21,16 @@ FileReader::~FileReader() {
   delete[] path_;
 }
 
-int FileReader::read(Byte** content, unsigned int size) {
-  if(FINISHED == status_) {
+int FileReader::read(Byte* content, unsigned int size) {
+  if (NULL == content) {
+      printf("[read] fail to read. parameter is illegal.\n");
+      return -1;
+  }
+  if (FINISHED == status_) {
       printf("[read] fail to read. stream alredy has been reached eof.\n");
       return -1;    
   }
-  if(INIT == status_) {
+  if (INIT == status_) {
     // open stream
     try{
       ifs_.open(path_);
@@ -40,12 +44,12 @@ int FileReader::read(Byte** content, unsigned int size) {
     ifs_.seekg(0, std::ifstream::beg);
   }
 
-  if (0 == file_size_) { return 0; }
-
   unsigned int rest_size = file_size_ - read_already_;
   read_at_once_ = ((size < rest_size) ? size : rest_size);
-  *content = new char[read_at_once_];
-  ifs_.read(*content, read_at_once_);
+  ifs_.read(content, read_at_once_);
+  if (read_at_once_ < size) {
+    memset(content + read_at_once_, '\0', size - read_at_once_);
+  }
 
   unsigned int tmp_already = read_already_;
   read_already_ += read_at_once_;
