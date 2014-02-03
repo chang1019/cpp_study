@@ -13,10 +13,10 @@ class InetAddress {
   friend class Socket;
 
 private:
-  struct sockaddr_in addr_;
+  struct addrinfo* addr_;
 
 private:
-  InetAddress(in_addr_t iaddr, int port);
+  InetAddress(struct addrinfo* addr);
 
 public:
   ~InetAddress();
@@ -24,6 +24,9 @@ public:
 private:
   InetAddress(const InetAddress&);
   InetAddress& operator=(const InetAddress&);
+
+public:
+  void showInfo();
 
 public:
   static InetAddress* create(const char* host, int port);

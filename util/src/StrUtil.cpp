@@ -1,6 +1,7 @@
-#include "StrUtil.h"
-
+#include <stdio.h>
 #include <string.h>
+
+#include "StrUtil.h"
 
 namespace practice {
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,34 @@ const char* copyCStr(const char* str, unsigned int len) {
   strncpy(ret, str, len);
   ret[len] = '\0';
   return ret;
+}
+
+namespace {
+
+char hexstr[16 + 1] = "0123456789abcdef";
+
+}
+
+// expected range [-2147483648, 2147483647]
+const char* intToCStr(int number) {
+  bool sign = number < 0;
+
+  char buf[11];
+  char* p = buf + 10;
+
+  int quot = number;
+  int mod;
+  while (true) {
+    mod = quot % 10;
+    quot /= 10;
+    *p = hexstr[(sign) ? -mod : mod];
+    if (0 == quot) { break; }
+    p--;
+  }
+
+  if (sign) { *(--p) = '-'; }
+  unsigned int len = 11 - (p - buf);
+  return copyCStr(p, len);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

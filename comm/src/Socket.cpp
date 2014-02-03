@@ -1,3 +1,4 @@
+#include <netdb.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -47,8 +48,8 @@ int Socket::connect(const char* host, int port) {
   }
 
   int result = call_connect(sock_,
-			     (struct sockaddr*)&address_->addr_,
-			     sizeof(address_->addr_));
+			    address_->addr_->ai_addr,
+			    address_->addr_->ai_addrlen);
   if (result < 0) {
     perror("connect");
     delete address_;

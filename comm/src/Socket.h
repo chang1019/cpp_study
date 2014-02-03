@@ -34,8 +34,8 @@ private:
 
 public:
   int connect(const char* host, int port);
-  int send(const Byte* request, unsigned int size);
-  int recieve(Byte* response, unsigned int size);
+  int send(const Byte* message, unsigned int size);
+  int recieve(Byte* message, unsigned int size);
   int close();
 
 public:
