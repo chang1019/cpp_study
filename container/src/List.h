@@ -8,25 +8,47 @@ namespace practice {
  * Bidirectional Linked List class.
  */
 class List {
+public:
+class Iterator;
+
 private:
-  class Elem {
+  class Element {
+    friend class Iterator;
     friend class List;
 
   private:
-    Elem* prev_;
-    Elem* next_;
+    Element* prev_;
+    Element* next_;
     void* elem_;
 
   public:
-    Elem(void* elem);
-    ~Elem();
+    Element(void* elem);
+    ~Element();
 
   public:
-    static void linkNext(Elem* pre, Elem* nex);
+    static void linkNext(Element* pre, Element* nex);
+  };
+
+public:
+  class Iterator {
+  private:
+    Element* elem_;
+
+  public:
+    Iterator(Element* elem);
+    ~Iterator();
+    Iterator(const Iterator& itr);
+    Iterator& operator=(const Iterator& itr);
+
+    void* operator*();
+    Iterator operator++(int i);
+
+    bool operator==(const Iterator& itr);
+    bool operator!=(const Iterator& itr);
   };
 
 private:
-  Elem* head_;
+  Element* head_;
   unsigned int size_;
 
 public:
@@ -48,8 +70,11 @@ public:
 
   unsigned int size();
 
+  Iterator begin();
+  Iterator end();
+
 private:
-  Elem* elemAt(unsigned int index);
+  Element* elemAt(unsigned int index);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
