@@ -3,8 +3,9 @@
 
 #include <sys/socket.h>
 
-#include "InetAddress.h"
 #include "Byte.h"
+#include "InetAddress.h"
+#include "ServerSocket.h"
 
 namespace practice {
 ////////////////////////////////////////////////////////////////////////////////
@@ -14,13 +15,13 @@ namespace practice {
  * (INET only at present).
  */
 class Socket {
+  friend class ServerSocket;
 private:
   enum {
     CLOSED = 0,
     CONNECTED,
   } status_;
   int sock_;
-  InetAddress* address_;
 
 private:
   Socket(int sock);
@@ -33,7 +34,7 @@ private:
   Socket& operator=(const Socket&);
 
 public:
-  int connect(const char* host, int port);
+  int connect(InetAddress& address);
   int send(const Byte* message, unsigned int size);
   int recieve(Byte* message, unsigned int size);
   int close();

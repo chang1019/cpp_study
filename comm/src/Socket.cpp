@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
@@ -37,23 +39,21 @@ Socket::~Socket() {
   close();
 }
 
-int Socket::connect(const char* host, int port) {
+int Socket::connect(InetAddress& address) {
   if (CONNECTED == status_) {
     printf("[connect] fail to connect. socket has been already connected.\n");
     return -1;
   }
-  if (NULL == (address_ = InetAddress::create(host, port))) {
-    printf("[connect] fail to get address of the host : %s\n", host);
+  if (NULL == address.addr_) {
+    printf("[connect] fail to get address of the destination.\n");
     return -1;
   }
 
   int result = call_connect(sock_,
-			    address_->addr_->ai_addr,
-			    address_->addr_->ai_addrlen);
+			    address.addr_->ai_addr,
+			    address.addr_->ai_addrlen);
   if (result < 0) {
     perror("connect");
-    delete address_;
-    address_ = NULL;
     return result;
   }
   status_ = CONNECTED;
@@ -91,8 +91,6 @@ int Socket::close() {
       perror("close");
       return result;
     }
-    delete address_;
-    address_ = NULL;
     status_ = CLOSED;
   }
   return result;

@@ -11,6 +11,7 @@ namespace practice {
  */
 class InetAddress {
   friend class Socket;
+  friend class ServerSocket;
 
 private:
   struct addrinfo* addr_;

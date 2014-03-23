@@ -1,10 +1,14 @@
 #include <stdio.h>
+#include <gtest/gtest.h>
 
 #include "Mutex.h"
 #include "Thread.h"
 
 namespace practice {
 ////////////////////////////////////////////////////////////////////////////////
+
+class ThreadTest : public ::testing::Test {
+};
 
 /**
  * Runnable Implementation.
@@ -35,7 +39,7 @@ public:
 
 using namespace practice;
 
-int main(int argc, char** argv) {
+TEST_F(ThreadTest, MultiThread_001) {
   Executor executor;
   Thread threads[10];
 
@@ -47,5 +51,4 @@ int main(int argc, char** argv) {
   for (int i = 0; i < size; i++) {
     threads[i].join();
   }
-  return 0;
 }

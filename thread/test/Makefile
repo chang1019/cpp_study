@@ -1,7 +1,6 @@
 CXXFLAGS:= -g -O0 -pthread
 
 SRCS:= $(wildcard ../src/*.cpp)
-SRCS+= $(wildcard ../../thread/src/*.cpp)
 TEST_SRCS:= $(wildcard *.cpp)
 
 # GOOGLE TEST SETTING
@@ -16,9 +15,9 @@ LIBS:= 	../../util/src/libutil.a
 
 CXXFLAGS += -I$(GTEST)/fused-src \
 	    -I../src \
+	    -I../include \
 	    -I../../type/include \
 	    -I../../util/include \
-	    -I../../thread/include
 
 .PHONY: all
 all: tester
